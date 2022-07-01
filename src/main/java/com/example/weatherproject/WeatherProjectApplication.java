@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,11 +22,11 @@ public class WeatherProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WeatherProjectApplication.class, args);
-        System.out.println("Every 5 minutes you can:");
+        System.out.println("Every one minute you can:");
         System.out.println("To use save the current weather status service for a city, enter (cws)");
         System.out.println("To use get weather status history service for a city, enter (wsh)");
         System.out.println("To use the delete weather status history service for a city, enter (dwsh)");
-        System.out.println("If you don't want to use any service, enter (esc)");
+        System.out.println("If you don't want to use any service, please enter (esc) to continue");
     }
 
     @Scheduled(cron = "0 0/5 * * * *")
@@ -42,8 +41,15 @@ public class WeatherProjectApplication {
         }
 
         System.out.println("We saved received weather data from weatherapi' service in our database");
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
+    }
+
+    @Scheduled(cron = "0 0/1 * * * *")
+    private void useWeatherServices() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Would you like to use our services? y/n");
+        String enabled = scanner.nextLine();
+        if (enabled.equals("y")) {
+            System.out.println("Enter service code: ");
             String userInput = scanner.nextLine();
             switch (userInput) {
                 case ("cws"): {
