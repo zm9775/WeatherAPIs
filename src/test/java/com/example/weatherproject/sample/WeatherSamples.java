@@ -18,7 +18,7 @@ public class WeatherSamples {
     @Autowired
     WeatherRepository weatherRepository;
 
-    ArrayList<Weather> data = new ArrayList<>();
+    public ArrayList<Weather> data = new ArrayList<>();
     boolean isInitialized = false;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 

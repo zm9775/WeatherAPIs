@@ -18,7 +18,8 @@ public class WeatherDaoTests {
     @Autowired
     SampleCenter sampleCenter;
 
-    @Autowired WeatherDao weatherDao;
+    @Autowired
+    WeatherDao weatherDao;
 
     @BeforeEach
     void setUp() {
@@ -27,26 +28,32 @@ public class WeatherDaoTests {
 
     @Test
     void getWeatherStatusHistoryByCityName() {
-        Page<Weather> cityWeatherHistory = weatherDao.getWeatherHistoryByCityName("Ahvaz", PageRequest.of(0, 5));
-        ArrayList<Weather> weatherHistory = new ArrayList<>(cityWeatherHistory.getContent());
-        Assertions.assertSame("Ahvaz", weatherHistory.get(0).getCityName());
-        Assertions.assertSame("Ahvaz", weatherHistory.get(1).getCityName());
+        Weather sampleWeather = sampleCenter.weatherSamples.data.get(2);
+        Page<Weather> weatherStatusHistory = weatherDao.getWeatherHistoryByCityName(
+                sampleWeather.getCityName(), PageRequest.of(0, 5)
+        );
+        ArrayList<Weather> weatherArrayList = new ArrayList<>(weatherStatusHistory.getContent());
+        Assertions.assertSame(sampleWeather.getCityName(), weatherArrayList.get(0).getCityName());
+        Assertions.assertSame(sampleWeather.getCityName(), weatherArrayList.get(1).getCityName());
     }
 
     @Test
     void deleteAllWeatherStatusByCityName() {
-        weatherDao.deleteWeatherHistoryByCityName("Tabriz");
-        Page<Weather> cityWeatherHistory = weatherDao.getWeatherHistoryByCityName("Tabriz", PageRequest.of(0, 5));
+        Weather sampleWeather = sampleCenter.weatherSamples.data.get(0);
+        weatherDao.deleteWeatherHistoryByCityName(sampleWeather.getCityName());
+        Page<Weather> cityWeatherHistory = weatherDao.getWeatherHistoryByCityName(
+                sampleWeather.getCityName(), PageRequest.of(0, 1)
+        );
         Assertions.assertTrue(cityWeatherHistory.isEmpty());
     }
 
     @Test
-    void findCityNames(){
+    void findCityNames() {
         ArrayList<String> cityNames = weatherDao.findCityNames();
         Assertions.assertEquals(3, cityNames.size());
-        Assertions.assertTrue(cityNames.contains("Tabriz"));
-        Assertions.assertTrue(cityNames.contains("Yazd"));
-        Assertions.assertTrue(cityNames.contains("Ahvaz"));
+        Assertions.assertTrue(cityNames.contains(sampleCenter.weatherSamples.data.get(0).getCityName()));
+        Assertions.assertTrue(cityNames.contains(sampleCenter.weatherSamples.data.get(1).getCityName()));
+        Assertions.assertTrue(cityNames.contains(sampleCenter.weatherSamples.data.get(2).getCityName()));
     }
 
     @AfterEach

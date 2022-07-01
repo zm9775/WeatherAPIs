@@ -28,14 +28,16 @@ class WeatherServiceTests {
 
     @Test
     void getAllWeatherStatusByCityName() {
-        ArrayList<Weather> tabriz = weatherService.getWeatherStatusHistory("Ahvaz");
-        Assertions.assertSame("Ahvaz", tabriz.get(0).getCityName());
-        Assertions.assertSame("Ahvaz", tabriz.get(1).getCityName());
+        Weather sampleWeather = sampleCenter.weatherSamples.data.get(2);
+        ArrayList<Weather> weatherStatusHistory = weatherService.getWeatherStatusHistory(sampleWeather.getCityName());
+        Assertions.assertSame(sampleWeather.getCityName(), weatherStatusHistory.get(0).getCityName());
+        Assertions.assertSame(sampleWeather.getCityName(), weatherStatusHistory.get(1).getCityName());
     }
 
     @Test
     void deleteAllWeatherStatusByCityName() {
-        Assertions.assertEquals(true, weatherService.deleteWeatherHistory("Tabriz").getBody());
+        Weather sampleWeather = sampleCenter.weatherSamples.data.get(0);
+        Assertions.assertEquals(true, weatherService.deleteWeatherHistory(sampleWeather.getCityName()).getBody());
     }
 
     @Test
