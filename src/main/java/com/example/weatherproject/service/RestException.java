@@ -1,4 +1,4 @@
-package com.example.weatherproject.controller;
+package com.example.weatherproject.service;
 
 import org.springframework.http.HttpStatus;
 
@@ -9,7 +9,7 @@ public class RestException extends RuntimeException {
         super("Bad Request");
     }
 
-    RestException(String message, HttpStatus httpStatus) {
+    public RestException(String message, HttpStatus httpStatus) {
         super(message);
         status = httpStatus;
     }
